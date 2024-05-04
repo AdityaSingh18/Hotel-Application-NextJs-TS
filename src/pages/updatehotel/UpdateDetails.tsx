@@ -48,29 +48,36 @@ const UpdateHotel = ({ hotelId }) => {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-4">Update Hotel Details</h1>
       <form className="space-y-4">
-      {Object.entries(formData).map(([key, value]) => (
-  <label htmlFor={key} className="block" key={key}>
-    {key.charAt(0).toUpperCase() + key.slice(1)}:
-    {key === 'hotelDescription' ? (
-      <textarea
-        id={key}
-        name={key}
-        value={typeof value === 'string' ? value : ''}
-        onChange={handleInputChange}
-        className="mt-1 p-2 w-full border border-gray-300 rounded-md text-slate-600"
-      />
-    ) : (
-      <input
-        type={key === 'hotelStartingPrice' || key === 'hotelStarRating' ? 'number' : 'text'}
-        id={key}
-        name={key}
-        value={typeof value === 'string' || typeof value === 'number' ? value : ''}
-        onChange={handleInputChange}
-        className="mt-1 p-2 w-full border border-gray-300 rounded-md text-slate-600"
-      />
-    )}
-  </label>
-))}
+      {Object.entries(formData).map(([key, value]) => {
+  // Exclude hotelSlugDetails and hotelPaymentOptions
+  if (key === 'hotelSlugsDetails' || key === 'hotelPaymentOption') {
+    return null; // Skip rendering these fields
+  }
+
+  return (
+    <label htmlFor={key} className="block" key={key}>
+      {key.charAt(0).toUpperCase() + key.slice(1)}:
+      {key === 'hotelDescription' ? (
+        <textarea
+          id={key}
+          name={key}
+          value={typeof value === 'string' ? value : ''}
+          onChange={handleInputChange}
+          className="mt-1 p-2 w-full border border-gray-300 rounded-md text-slate-600"
+        />
+      ) : (
+        <input
+          type={key === 'hotelStartingPrice' || key === 'hotelStarRating' ? 'number' : 'text'}
+          id={key}
+          name={key}
+          value={typeof value === 'string' || typeof value === 'number' ? value : ''}
+          onChange={handleInputChange}
+          className="mt-1 p-2 w-full border border-gray-300 rounded-md text-slate-600"
+        />
+      )}
+    </label>
+  );
+})}
 
       </form>
       <button
